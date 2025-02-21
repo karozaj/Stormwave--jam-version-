@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://c5b5s8rvc7pcy"]
+
+[ext_resource type="FontFile" uid="uid://u1pfnc44okfc" path="res://assets/fonts/ShareTechMono-Regular.ttf" id="1_hd6cf"]
+
+[resource]
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.588235)
+Label/constants/outline_size = 1
+Label/font_sizes/font_size = 40
+Label/fonts/font = ExtResource("1_hd6cf")

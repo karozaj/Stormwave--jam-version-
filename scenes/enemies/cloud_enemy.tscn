@@ -1,0 +1,209 @@
+[gd_scene load_steps=11 format=3 uid="uid://bck4rv08t0f2c"]
+
+[ext_resource type="Texture2D" uid="uid://dihd6lyjfu487" path="res://assets/img/cloud_texture.png" id="1_nju5t"]
+[ext_resource type="Script" path="res://scenes/enemies/cloud_enemy.gd" id="1_udpnm"]
+[ext_resource type="Texture2D" uid="uid://buji11q4cgnu4" path="res://assets/img/eye_texture.png" id="2_3be53"]
+[ext_resource type="AudioStream" uid="uid://hyfegr205vq4" path="res://assets/audio/enemies/charge.ogg" id="4_55qhu"]
+[ext_resource type="Texture2D" uid="uid://tjybn4atbi2t" path="res://assets/img/lightning.png" id="4_dhp4g"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_w5ap6"]
+radius = 1.0
+
+[sub_resource type="Animation" id="Animation_vu6oq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("cloud_sprite/eye_sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.0627451, 0.556863, 0.611765, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("lightning_sprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("cloud_sprite:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_q601s"]
+resource_name = "attack"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("cloud_sprite/eye_sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.633333, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.0627451, 0.556863, 0.611765, 1), Color(0.93845, 0.93845, 0.93845, 1), Color(0.0627451, 0.556863, 0.611765, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.633333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_charge_sound"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.633333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_thunder_sound"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("lightning_sprite:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.633333, 0.733333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_mrf28"]
+resource_name = "death"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("cloud_sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"destroy_self"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_guc34"]
+_data = {
+"RESET": SubResource("Animation_vu6oq"),
+"attack": SubResource("Animation_q601s"),
+"death": SubResource("Animation_mrf28")
+}
+
+[node name="CloudEnemy" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 47
+script = ExtResource("1_udpnm")
+
+[node name="cloud_sprite" type="Sprite3D" parent="."]
+pixel_size = 0.04
+billboard = 1
+texture_filter = 0
+texture = ExtResource("1_nju5t")
+
+[node name="eye_sprite" type="Sprite3D" parent="cloud_sprite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
+modulate = Color(0.0627451, 0.556863, 0.611765, 1)
+pixel_size = 0.04
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_3be53")
+
+[node name="lightning_sprite" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.814368, 0)
+visible = false
+pixel_size = 0.025
+texture_filter = 0
+texture = ExtResource("4_dhp4g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_w5ap6")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, -50, 0)
+collision_mask = 7
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_55qhu")
+volume_db = -5.0
+pitch_scale = 0.52
+bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_guc34")
+}
+
+[node name="cooldown_timer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="pain_audio_player" type="AudioStreamPlayer3D" parent="."]
+bus = &"SFX"
+
+[connection signal="timeout" from="cooldown_timer" to="." method="_on_cooldown_timer_timeout"]

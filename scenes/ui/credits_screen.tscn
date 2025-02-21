@@ -1,0 +1,81 @@
+[gd_scene load_steps=6 format=3 uid="uid://c3twenrd5nm15"]
+
+[ext_resource type="Theme" uid="uid://bxk4mwrcf7pbe" path="res://resources/themes/theme_menu.tres" id="1_15rj6"]
+[ext_resource type="Script" path="res://scenes/ui/credits_screen.gd" id="1_cdyek"]
+[ext_resource type="Texture2D" uid="uid://dy73dshlbpo8n" path="res://assets/img/sky.png" id="3_nhnxa"]
+[ext_resource type="FontFile" uid="uid://u1pfnc44okfc" path="res://assets/fonts/ShareTechMono-Regular.ttf" id="3_tb58x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ek0p"]
+
+[node name="credits_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_15rj6")
+script = ExtResource("1_cdyek")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_nhnxa")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.5
+offset_top = -17.5
+offset_right = 36.5
+offset_bottom = 17.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(1000, 500)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("3_tb58x")
+theme_override_font_sizes/normal_font_size = 18
+theme_override_styles/background = SubResource("StyleBoxFlat_4ek0p")
+bbcode_enabled = true
+text = "[center]Font:
+Share Tech Mono by Carrois Apostrophe
+
+Music:
+Purgatory Extreme Metal Music Pack by David KBD
+Ambiences Music Pack by JDSherbert
+
+Sound effects:
+Snake's Authentic Gun Sounds by SnakeF8
+Snake's SECOND Authentic Gun Sounds Pack by SnakeF8
+FREE FPS SFX by LMGLolo
+Weapon, Sword, Metal sword, Swing, fast, impact by julianmateo_
+Ultimate UI SFX Pack by JDSherbert
+Beasts SFX Vol.1 by Atelier Magicae
+071758_Skittering bugs by pixabay.com
+Thunder For Anime by LordSonny 
+062708_Laser Charging by pixabay.com
+
+2D art:
+Zortch Unused Textures 2 by mutantleg
+Seamless Sky Backgrounds by Screaming Brain Studios
+Storm Clouds by freestockcenter"
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "RETURN"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]

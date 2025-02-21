@@ -1,0 +1,203 @@
+[gd_scene load_steps=10 format=3 uid="uid://cacvoko6f4gv1"]
+
+[ext_resource type="Script" path="res://scenes/weapons/rocket_projectile.gd" id="1_dk7x6"]
+[ext_resource type="Texture2D" uid="uid://dfecpmbvws8bn" path="res://assets/img/projectile_orange.png" id="2_mesok"]
+[ext_resource type="Texture2D" uid="uid://bh41btjrshu82" path="res://assets/img/explosion.png" id="3_lj8mt"]
+[ext_resource type="AudioStream" uid="uid://b2g4u3b7vxkju" path="res://assets/audio/gun_sfx/explosion.ogg" id="3_m0xs4"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_csfmj"]
+radius = 0.25
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_37lqn"]
+radius = 3.5
+
+[sub_resource type="Animation" id="Animation_hu0s1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExplosionSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ExplosionSprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ExplosionSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.25, 0.25, 0.25)]
+}
+
+[sub_resource type="Animation" id="Animation_80rjv"]
+resource_name = "explode"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExplosionSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ExplosionSprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer3D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ExplosionSprite:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.133333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.25, 0.25, 0.25), Vector3(1.25, 1.25, 1.25)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ua0dp"]
+_data = {
+"RESET": SubResource("Animation_hu0s1"),
+"explode": SubResource("Animation_80rjv")
+}
+
+[node name="RocketProjectile" type="Area3D"]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_dk7x6")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_mesok")
+
+[node name="ExplosionSprite" type="Sprite3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+visible = false
+pixel_size = 0.07
+billboard = 1
+texture_filter = 0
+texture = ExtResource("3_lj8mt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_csfmj")
+
+[node name="projectile_lifetime_timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, -0.5)
+collision_mask = 7
+
+[node name="RayCast3D2" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, 0.5)
+collision_mask = 7
+
+[node name="RayCast3D3" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0.5, 0)
+collision_mask = 7
+
+[node name="RayCast3D4" type="RayCast3D" parent="."]
+target_position = Vector3(0.5, 0, 0)
+collision_mask = 7
+
+[node name="RayCast3D5" type="RayCast3D" parent="."]
+target_position = Vector3(-0.5, 0, 0)
+collision_mask = 7
+
+[node name="RayCast3D6" type="RayCast3D" parent="."]
+target_position = Vector3(0, -0.5, 0)
+collision_mask = 7
+
+[node name="RayCast3D7" type="RayCast3D" parent="."]
+target_position = Vector3(0, -0.35, -0.35)
+collision_mask = 7
+
+[node name="RayCast3D8" type="RayCast3D" parent="."]
+target_position = Vector3(-0.25, -0.25, -0.25)
+collision_mask = 7
+
+[node name="RayCast3D9" type="RayCast3D" parent="."]
+target_position = Vector3(0.25, -0.25, -0.25)
+collision_mask = 7
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_37lqn")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_m0xs4")
+volume_db = 1.7
+bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ua0dp")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="projectile_lifetime_timer" to="." method="_on_projectile_lifetime_timer_timeout"]

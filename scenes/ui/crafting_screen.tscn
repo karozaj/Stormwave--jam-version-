@@ -1,0 +1,172 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnmppkmbgjxxk"]
+
+[ext_resource type="Theme" uid="uid://bxk4mwrcf7pbe" path="res://resources/themes/theme_menu.tres" id="1_yvlip"]
+[ext_resource type="Script" path="res://scenes/ui/crafting_screen.gd" id="2_n3sar"]
+
+[node name="CraftingScreen" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_yvlip")
+script = ExtResource("2_n3sar")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.25)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -322.0
+offset_top = -102.5
+offset_right = 322.0
+offset_bottom = 102.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ResourceInfoContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ResourceInfoContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "RESOURCES"
+horizontal_alignment = 1
+
+[node name="ResourcesContainer" type="HBoxContainer" parent="HBoxContainer/ResourceInfoContainer"]
+layout_mode = 2
+
+[node name="ResourceNamesContainer" type="VBoxContainer" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer"]
+layout_mode = 2
+
+[node name="LabelBlocks" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/ResourceNamesContainer"]
+layout_mode = 2
+text = "blocks:"
+horizontal_alignment = 2
+
+[node name="LabelHealth" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/ResourceNamesContainer"]
+layout_mode = 2
+text = "health:"
+horizontal_alignment = 2
+
+[node name="LabelPistol" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/ResourceNamesContainer"]
+layout_mode = 2
+text = "pistol:"
+horizontal_alignment = 2
+
+[node name="LabelShotgun" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/ResourceNamesContainer"]
+layout_mode = 2
+text = "shotgun:"
+horizontal_alignment = 2
+
+[node name="LabelMachineGun" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/ResourceNamesContainer"]
+layout_mode = 2
+text = "chaingun:"
+horizontal_alignment = 2
+
+[node name="LabelRocketLauncher" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/ResourceNamesContainer"]
+layout_mode = 2
+text = "rocket launcher:"
+horizontal_alignment = 2
+
+[node name="AmmoInfoContainer" type="VBoxContainer" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer"]
+layout_mode = 2
+
+[node name="block" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/AmmoInfoContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "0"
+
+[node name="health" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/AmmoInfoContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "0"
+
+[node name="pistol" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/AmmoInfoContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "0"
+
+[node name="shotgun" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/AmmoInfoContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "0"
+
+[node name="machinegun" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/AmmoInfoContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "0"
+
+[node name="rocket" type="Label" parent="HBoxContainer/ResourceInfoContainer/ResourcesContainer/AmmoInfoContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "0"
+
+[node name="CraftingContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/CraftingContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "PURCHASE"
+horizontal_alignment = 1
+
+[node name="CraftingButtonsContainer" type="VBoxContainer" parent="HBoxContainer/CraftingContainer"]
+layout_mode = 2
+
+[node name="health_button" type="Button" parent="HBoxContainer/CraftingContainer/CraftingButtonsContainer"]
+layout_mode = 2
+disabled = true
+text = "? block -> ! health"
+
+[node name="pistol_button" type="Button" parent="HBoxContainer/CraftingContainer/CraftingButtonsContainer"]
+layout_mode = 2
+disabled = true
+text = "? blocks -> ! pistol ammo"
+
+[node name="shotgun_button" type="Button" parent="HBoxContainer/CraftingContainer/CraftingButtonsContainer"]
+layout_mode = 2
+disabled = true
+text = "? blocks -> ! shotgun ammo"
+
+[node name="machine_gun_button" type="Button" parent="HBoxContainer/CraftingContainer/CraftingButtonsContainer"]
+layout_mode = 2
+disabled = true
+text = "? blocks -> ! chaingun ammo"
+
+[node name="rocket_launcher_button" type="Button" parent="HBoxContainer/CraftingContainer/CraftingButtonsContainer"]
+layout_mode = 2
+disabled = true
+text = "? blocks -> ! rocket launcher ammo"
+
+[node name="ContinueButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.85
+anchor_right = 0.5
+anchor_bottom = 0.9
+offset_left = 43.5
+offset_top = 23.0
+offset_right = -43.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "CONTINUE"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]

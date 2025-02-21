@@ -1,0 +1,150 @@
+[gd_scene load_steps=8 format=3 uid="uid://d1e1ryq7s2wyc"]
+
+[ext_resource type="PackedScene" uid="uid://b13ye36ns3ofo" path="res://assets/3d/pistol.glb" id="1_lqs8q"]
+[ext_resource type="Script" path="res://scenes/weapons/pistol.gd" id="2_0prp7"]
+[ext_resource type="Texture2D" uid="uid://dm41wq8xdiwm6" path="res://assets/img/muzzle_flash.png" id="2_yq8k6"]
+[ext_resource type="AudioStream" uid="uid://cvjbhoqqdn60s" path="res://assets/audio/gun_sfx/pistol.ogg" id="4_bkrxh"]
+
+[sub_resource type="Animation" id="Animation_q8s0t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cube_001/tip/muzzle_flash:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cube_001:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cube_001:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 3.14159, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tne8n"]
+resource_name = "shoot"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cube_001/tip/muzzle_flash:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cube_001:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0666667, 0.233333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0.07), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cube_001:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0666667, 0.233333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.261799, 3.14159, 0), Vector3(0, 3.14159, 0)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_shooting_sound"
+}]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.233333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"muzzle_flash_flip"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a2i7a"]
+_data = {
+"RESET": SubResource("Animation_q8s0t"),
+"shoot": SubResource("Animation_tne8n")
+}
+
+[node name="pistol" instance=ExtResource("1_lqs8q")]
+script = ExtResource("2_0prp7")
+
+[node name="Cube_001" parent="." index="0"]
+transform = Transform3D(-1, 0, 2.53518e-06, 0, 1, 0, -2.53518e-06, 0, -1, 0, 0, 0)
+layers = 524288
+
+[node name="tip" type="Marker3D" parent="Cube_001" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00055145, 0.0932646, 0.221631)
+
+[node name="muzzle_flash" type="Sprite3D" parent="Cube_001/tip" index="0"]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
+visible = false
+layers = 524288
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_yq8k6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_a2i7a")
+}
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="2"]
+stream = ExtResource("4_bkrxh")
+bus = &"SFX"
+
+[node name="RayCast3D" type="RayCast3D" parent="." index="3"]
+target_position = Vector3(0, 0, -100)
+collision_mask = 6

@@ -1,0 +1,157 @@
+[gd_scene load_steps=8 format=3 uid="uid://i2rwq4qmwnqq"]
+
+[ext_resource type="PackedScene" uid="uid://bjypkjn0d06fy" path="res://assets/3d/chaingun2.glb" id="1_t7dny"]
+[ext_resource type="Script" path="res://scenes/weapons/chaingun_2.gd" id="2_ni1fq"]
+[ext_resource type="Texture2D" uid="uid://dm41wq8xdiwm6" path="res://assets/img/muzzle_flash.png" id="3_y3luf"]
+[ext_resource type="AudioStream" uid="uid://cvjbhoqqdn60s" path="res://assets/audio/gun_sfx/pistol.ogg" id="4_fprh7"]
+
+[sub_resource type="Animation" id="Animation_mtpyf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cylinder_001/tip/muzzle_flash:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cylinder_001:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_kmet0"]
+resource_name = "shoot"
+length = 0.05
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cylinder_001/tip/muzzle_flash:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cylinder_001:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.04),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.05), Vector3(0, 0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_shooting_sound"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.04),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"muzzle_flash_flip"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sgxbh"]
+_data = {
+"RESET": SubResource("Animation_mtpyf"),
+"shoot": SubResource("Animation_kmet0")
+}
+
+[node name="chaingun2" instance=ExtResource("1_t7dny")]
+script = ExtResource("2_ni1fq")
+
+[node name="Cylinder_001" parent="." index="0"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+layers = 524288
+
+[node name="Cylinder_002" parent="Cylinder_001" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000122118, 0.0681506, 0.206719)
+layers = 524288
+
+[node name="tip" type="Marker3D" parent="Cylinder_001" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.114875, 0.710367)
+
+[node name="muzzle_flash" type="Sprite3D" parent="Cylinder_001/tip" index="0"]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 0, 0)
+visible = false
+layers = 524288
+billboard = 1
+texture_filter = 0
+texture = ExtResource("3_y3luf")
+
+[node name="AnimationPlayer" parent="." index="1"]
+autoplay = "spin"
+
+[node name="shoot_animation_player" type="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_sgxbh")
+}
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="3"]
+stream = ExtResource("4_fprh7")
+bus = &"SFX"
+
+[node name="rays" type="Node3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.117726, -0.709817)
+
+[node name="ray_center" type="RayCast3D" parent="rays" index="0"]
+target_position = Vector3(0, 0, -100)
+collision_mask = 6
+
+[node name="ray_top" type="RayCast3D" parent="rays" index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.999048, -0.0436194, 0, 0.0436194, 0.999048, 0, 0, 0)
+target_position = Vector3(0, 0, -100)
+collision_mask = 6
+
+[node name="ray_bottom" type="RayCast3D" parent="rays" index="2"]
+transform = Transform3D(1, 0, 0, 0, 0.999048, 0.0436194, 0, -0.0436194, 0.999048, 0, 0, 0)
+target_position = Vector3(0, 0, -100)
+collision_mask = 6
+
+[node name="ray_right" type="RayCast3D" parent="rays" index="3"]
+transform = Transform3D(0.996195, 0, -0.0871557, 0, 1, 0, 0.0871557, 0, 0.996195, 0, 0, 0)
+target_position = Vector3(0, 0, -100)
+collision_mask = 6
+
+[node name="ray_left" type="RayCast3D" parent="rays" index="4"]
+transform = Transform3D(0.996195, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996195, 0, 0, 0)
+target_position = Vector3(0, 0, -100)
+collision_mask = 6

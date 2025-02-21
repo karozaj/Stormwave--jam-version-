@@ -1,0 +1,223 @@
+[gd_scene load_steps=14 format=3 uid="uid://cl0wa8s1cow4w"]
+
+[ext_resource type="Script" path="res://scenes/player.gd" id="1_uq8ue"]
+[ext_resource type="PackedScene" uid="uid://do81inxv6fsfr" path="res://scenes/weapons/weapon_manager.tscn" id="2_wudfx"]
+[ext_resource type="PackedScene" uid="uid://cgdvulybuoskq" path="res://scenes/ui/ammo_display.tscn" id="3_7lydq"]
+[ext_resource type="Texture2D" uid="uid://cj4ix3t82x2yf" path="res://assets/img/reticle.png" id="3_jjf5c"]
+[ext_resource type="AudioStream" uid="uid://7p6e20i3x31f" path="res://assets/audio/footstep1.ogg" id="3_jvx5b"]
+[ext_resource type="Texture2D" uid="uid://bx7yud72e5q70" path="res://assets/img/pain_overlay.png" id="3_ws2oj"]
+[ext_resource type="AudioStream" uid="uid://ck532s1x561eu" path="res://assets/audio/jump_land.ogg" id="4_lyeli"]
+[ext_resource type="PackedScene" uid="uid://di2dneqncibhe" path="res://scenes/ui/game_state_display.tscn" id="6_3hndn"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4qd1p"]
+radius = 0.35
+height = 1.75
+
+[sub_resource type="Animation" id="Animation_ejcdn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/HurtOverlay:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/HurtOverlay:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.215686)]
+}
+
+[sub_resource type="Animation" id="Animation_djx2d"]
+resource_name = "death"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/HurtOverlay:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/HurtOverlay:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333, 0.433333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"create_death_menu"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_oqdyx"]
+resource_name = "hurt"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/HurtOverlay:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/HurtOverlay:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.294118), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_podfi"]
+_data = {
+"RESET": SubResource("Animation_ejcdn"),
+"death": SubResource("Animation_djx2d"),
+"hurt": SubResource("Animation_oqdyx")
+}
+
+[node name="Player" type="CharacterBody3D"]
+collision_mask = 62
+script = ExtResource("1_uq8ue")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
+shape = SubResource("CapsuleShape3D_4qd1p")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
+
+[node name="GunCamera3D" type="Camera3D" parent="Pivot"]
+cull_mask = 524288
+
+[node name="Marker3D" type="Marker3D" parent="Pivot/GunCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.7989)
+
+[node name="WeaponManager" parent="Pivot/GunCamera3D" instance=ExtResource("2_wudfx")]
+
+[node name="Camera3D" type="Camera3D" parent="Pivot"]
+cull_mask = 524287
+current = true
+fov = 90.0
+
+[node name="RayCast3D" type="RayCast3D" parent="Pivot/Camera3D"]
+visible = false
+target_position = Vector3(0, 0, -8)
+collision_mask = 2
+debug_shape_thickness = 5
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HurtOverlay" type="TextureRect" parent="CanvasLayer"]
+visible = false
+modulate = Color(1, 1, 1, 0.215686)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ws2oj")
+
+[node name="reticle" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_jjf5c")
+stretch_mode = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="AmmoDisplay" parent="CanvasLayer" instance=ExtResource("3_7lydq")]
+
+[node name="GameStateDisplay" parent="CanvasLayer" instance=ExtResource("6_3hndn")]
+
+[node name="footstep_audio_player" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_jvx5b")
+volume_db = -22.5
+bus = &"SFX"
+
+[node name="landing_sound_player" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_lyeli")
+volume_db = -25.0
+bus = &"SFX"
+
+[node name="jump_buffer_timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="coyote_time_timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="hurt_animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_podfi")
+}
+
+[connection signal="timeout" from="jump_buffer_timer" to="." method="_on_jump_buffer_timer_timeout"]
+[connection signal="timeout" from="coyote_time_timer" to="." method="_on_coyote_time_timer_timeout"]

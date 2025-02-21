@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://cnm4medkvxyo6"]
+
+[ext_resource type="PackedScene" uid="uid://cl0wa8s1cow4w" path="res://scenes/player.tscn" id="1_5k5jb"]
+[ext_resource type="Script" path="res://scenes/test_level.gd" id="1_x7tvp"]
+[ext_resource type="PackedScene" uid="uid://d4bfv1qbb8cay" path="res://scenes/block_gridmap.tscn" id="2_sc4rb"]
+[ext_resource type="PackedScene" uid="uid://d3dtj82fmtx03" path="res://scenes/enemies/projectile_enemy.tscn" id="5_17snw"]
+[ext_resource type="PackedScene" uid="uid://dg763q4mxgui5" path="res://scenes/enemies/hitscan_enemy.tscn" id="5_v1lrf"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tqfow"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_hq4w2"]
+sky_material = SubResource("ProceduralSkyMaterial_tqfow")
+
+[sub_resource type="Environment" id="Environment_ssyte"]
+background_mode = 2
+sky = SubResource("Sky_hq4w2")
+tonemap_mode = 2
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_5agj1"]
+vertices = PackedVector3Array(-1.79, 0.5, -3.315, -1.79, 0.5, 3.435, 1.71, 0.5, 3.435, 1.71, 0.5, -3.315)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+agent_height = 0.75
+agent_radius = 0.25
+agent_max_climb = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_l8u26"]
+size = Vector2(4.08, 7.13)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_nd3oq"]
+data = PackedVector3Array(2.04, 0, 3.565, -2.04, 0, 3.565, 2.04, 0, -3.565, -2.04, 0, 3.565, -2.04, 0, -3.565, 2.04, 0, -3.565)
+
+[node name="test_level" type="Node3D"]
+script = ExtResource("1_x7tvp")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ssyte")
+
+[node name="Player" parent="." instance=ExtResource("1_5k5jb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.49687, 0, 0.673452)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.812063, 0, -0.58357, 0.053357, 0.995811, 0.0742486, 0.581125, -0.0914321, 0.808662, 0, 1.67078, 5.60498)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_5agj1")
+
+[node name="block_gridmap" parent="NavigationRegion3D" instance=ExtResource("2_sc4rb")]
+data = {
+"cells": PackedInt32Array(0, 65531, 0, 2, 65534, 0, 2, 65535, 0, 2, 0, 0, 2, 1, 0, 3, 1, 0, 3, 0, 0, 3, 65535, 0, 3, 65534, 0, 4, 65535, 0, 12, 65523, 0, 12, 65524, 0, 12, 65525, 0, 12, 65526, 0, 12, 65527, 0, 12, 65528, 0, 12, 65529, 0, 12, 65530, 0, 12, 65531, 0, 12, 65532, 0, 12, 65533, 0, 12, 65534, 0, 12, 65535, 0, 12, 0, 0, 13, 65523, 0, 13, 65524, 0, 13, 65525, 0, 13, 65526, 0, 13, 65527, 0, 13, 65528, 0, 13, 65529, 0, 13, 65530, 0, 13, 65531, 0, 13, 65532, 0, 13, 65533, 0, 13, 65534, 0, 13, 65535, 0, 13, 0, 0, 14, 65523, 0, 14, 65524, 0, 14, 65525, 0, 14, 65526, 0, 14, 65527, 0, 14, 65528, 0, 14, 65529, 0, 14, 65530, 0, 14, 65531, 0, 14, 65532, 0, 14, 65533, 0, 14, 65534, 0, 14, 65535, 0, 14, 0, 0, 15, 65523, 0, 15, 65524, 0, 15, 65525, 0, 15, 65526, 0, 15, 65527, 0, 15, 65528, 0, 15, 65529, 0, 15, 65530, 0, 15, 65531, 0, 15, 65532, 0, 15, 65533, 0, 15, 65534, 0, 15, 65535, 0, 15, 0, 0, 16, 65523, 0, 16, 65524, 0, 16, 65525, 0, 16, 65526, 0, 16, 65527, 0, 16, 65528, 0, 16, 65529, 0, 16, 65530, 0, 16, 65531, 0, 16, 65532, 0, 16, 65533, 0, 16, 65534, 0, 16, 65535, 0, 16, 0, 0, 17, 65523, 0, 17, 65524, 0, 17, 65525, 0, 17, 65526, 0, 17, 65527, 0, 17, 65528, 0, 17, 65529, 0, 17, 65530, 0, 17, 65531, 0, 17, 65532, 0, 17, 65533, 0, 17, 65534, 0, 17, 65535, 0, 17, 0, 0, 18, 65523, 0, 18, 65524, 0, 18, 65525, 0, 18, 65526, 0, 18, 65527, 0, 18, 65528, 0, 18, 65529, 0, 18, 65530, 0, 18, 65531, 0, 18, 65532, 0, 18, 65533, 0, 18, 65534, 0, 18, 65535, 0, 18, 0, 0, 19, 65523, 0, 19, 65524, 0, 19, 65525, 0, 19, 65526, 0, 19, 65527, 0, 19, 65528, 0, 19, 65529, 0, 19, 65530, 0, 19, 65531, 0, 19, 65532, 0, 19, 65533, 0, 19, 65534, 0, 19, 65535, 0, 19, 0, 0, 20, 65523, 0, 20, 65524, 0, 20, 65525, 0, 20, 65526, 0, 20, 65527, 0, 20, 65528, 0, 20, 65529, 0, 20, 65530, 0, 20, 65531, 0, 20, 65532, 0, 20, 65533, 0, 20, 65534, 0, 20, 65535, 0, 20, 0, 0, 21, 65523, 0, 21, 65524, 0, 21, 65525, 0, 21, 65526, 0, 21, 65527, 0, 21, 65528, 0, 21, 65529, 0, 21, 65530, 0, 21, 65531, 0, 21, 65532, 0, 21, 65533, 0, 21, 65534, 0, 21, 65535, 0, 21, 0, 0, 22, 65523, 0, 22, 65524, 0, 22, 65525, 0, 22, 65526, 0, 22, 65527, 0, 22, 65528, 0, 22, 65529, 0, 22, 65530, 0, 22, 65531, 0, 22, 65532, 0, 22, 65533, 0, 22, 65534, 0, 22, 65535, 0, 22, 0, 0, 23, 65523, 0, 23, 65524, 0, 23, 65525, 0, 23, 65526, 0, 23, 65527, 0, 23, 65528, 0, 23, 65529, 0, 23, 65530, 0, 23, 65531, 0, 23, 65532, 0, 23, 65533, 0, 23, 65534, 0, 23, 65535, 0, 23, 0, 0, 24, 65523, 0, 24, 65524, 0, 24, 65525, 0, 24, 65526, 0, 24, 65527, 0, 24, 65528, 0, 24, 65529, 0, 24, 65530, 0, 24, 65531, 0, 24, 65532, 0, 24, 65533, 0, 24, 65534, 0, 24, 65535, 0, 24, 0, 0, 25, 65523, 0, 25, 65524, 0, 25, 65525, 0, 25, 65526, 0, 25, 65527, 0, 25, 65528, 0, 25, 65529, 0, 25, 65530, 0, 25, 65531, 0, 25, 65532, 0, 25, 65533, 0, 25, 65534, 0, 25, 65535, 0, 25, 0, 0, 6, 4, 0, 8, 0, 0, 9, 7, 0, -3, 2, 0, -3, 0, 0, -4, 0, 0, -4, 1, 0, -3, 1, 0, -4, 2, 0, -4, 3, 0, -3, 3, 0, -3, 4, 0, -4, 4, 0, -5, 4, 0, -5, 3, 0, -6, 3, 0, -6, 2, 0, -6, 1, 0, -6, 0, 0, -6, 65535, 0, -6, 65534, 0, -5, 65534, 0, -5, 65535, 0, -5, 0, 0, -5, 1, 0, -5, 2, 0, -7, 3, 0, -7, 4, 0, -6, 4, 0, 11, 65535, 0, 11, 0, 0, 10, 65535, 0, 10, 0, 0, 9, 0, 0, 7, 0, 0, 7, 65535, 0, 6, 65535, 0, 6, 0, 0, 5, 0, 0, 4, 0, 0)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+mesh = SubResource("PlaneMesh_l8u26")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/MeshInstance3D"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_nd3oq")
+
+[node name="ProjectileEnemy" parent="." instance=ExtResource("5_17snw")]
+transform = Transform3D(1, -4.65661e-10, -1.86265e-09, -4.65661e-10, 1, 0, 0, 0, 1, 15.6572, 1, -2.90903)
+
+[node name="HitscanEnemy" parent="." instance=ExtResource("5_v1lrf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.0363, 1, -8.2364)
+health = 50
+base_damage = 5
+knockback_modifier = 25.0
+attack_cooldown = 2.0
+attack_range = 25.0

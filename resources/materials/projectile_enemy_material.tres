@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dwfdjx0iaailh"]
+
+[ext_resource type="Texture2D" uid="uid://b2r3uvfeub41q" path="res://assets/img/projectile_enemy_texture.png" id="1_slq8h"]
+
+[resource]
+albedo_texture = ExtResource("1_slq8h")
+emission = Color(0.597176, 0.597176, 0.597176, 1)
+texture_filter = 0

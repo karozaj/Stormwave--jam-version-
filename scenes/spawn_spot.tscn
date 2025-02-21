@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://bl62im45fg1sp"]
+
+[ext_resource type="Script" path="res://scenes/spawn_spot.gd" id="1_qrixd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j3ikx"]
+size = Vector3(2.6, 4.1, 2.6)
+
+[node name="spawn_spot" type="Node3D"]
+script = ExtResource("1_qrixd")
+
+[node name="spawn_position" type="Marker3D" parent="."]
+
+[node name="spawn_area" type="Area3D" parent="spawn_position"]
+collision_layer = 64
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spawn_position/spawn_area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
+shape = SubResource("BoxShape3D_j3ikx")
+
+[connection signal="body_entered" from="spawn_position/spawn_area" to="." method="_on_spawn_area_body_entered"]
+[connection signal="body_exited" from="spawn_position/spawn_area" to="." method="_on_spawn_area_body_exited"]

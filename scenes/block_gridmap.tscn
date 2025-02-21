@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4bfv1qbb8cay"]
+
+[ext_resource type="Script" path="res://scenes/grid_map.gd" id="1_b61bo"]
+[ext_resource type="MeshLibrary" uid="uid://br5wb3woi5pui" path="res://mesh_libraries/blocks_main.tres" id="1_ukv74"]
+
+[node name="block_gridmap" type="GridMap"]
+mesh_library = ExtResource("1_ukv74")
+cell_size = Vector3(1, 1, 1)
+collision_layer = 2
+collision_mask = 5
+bake_navigation = true
+script = ExtResource("1_b61bo")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

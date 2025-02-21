@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://be12pr08omygr"]
+
+[ext_resource type="Script" path="res://scenes/weapons/projectile.gd" id="1_867t0"]
+[ext_resource type="Texture2D" uid="uid://cdbvgrtkg4l8" path="res://assets/img/projectile_blue.png" id="2_3buav"]
+[ext_resource type="AudioStream" uid="uid://b2g4u3b7vxkju" path="res://assets/audio/gun_sfx/explosion.ogg" id="4_q00et"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_csfmj"]
+radius = 0.25
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_37lqn"]
+radius = 0.3
+
+[node name="Projectile" type="Area3D"]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_867t0")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_3buav")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_csfmj")
+
+[node name="projectile_lifetime_timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_37lqn")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_q00et")
+volume_db = -20.0
+pitch_scale = 3.0
+bus = &"SFX"
+
+[connection signal="timeout" from="projectile_lifetime_timer" to="." method="_on_projectile_lifetime_timer_timeout"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_body_entered"]
+[connection signal="finished" from="AudioStreamPlayer3D" to="." method="_on_audio_stream_player_3d_finished"]

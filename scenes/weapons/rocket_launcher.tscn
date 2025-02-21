@@ -1,0 +1,103 @@
+[gd_scene load_steps=7 format=3 uid="uid://um6qgc6u7hxp"]
+
+[ext_resource type="PackedScene" uid="uid://cs8qehnyoree2" path="res://assets/3d/rocket_launcher.glb" id="1_we23q"]
+[ext_resource type="Script" path="res://scenes/weapons/rocket_launcher.gd" id="2_75kim"]
+[ext_resource type="AudioStream" uid="uid://b6bvervfx7hc2" path="res://assets/audio/gun_sfx/rocket_launcher.ogg" id="3_6rvmh"]
+
+[sub_resource type="Animation" id="Animation_e32fk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cube_001:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 3.14159, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cube_001:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7doc3"]
+resource_name = "shoot"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cube_001:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.1), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cube_001:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 3.14159, 0), Vector3(-0.261799, 3.14159, 0), Vector3(0, 3.14159, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_shooting_sound"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_im076"]
+_data = {
+"RESET": SubResource("Animation_e32fk"),
+"shoot": SubResource("Animation_7doc3")
+}
+
+[node name="rocket_launcher" instance=ExtResource("1_we23q")]
+script = ExtResource("2_75kim")
+
+[node name="Cube_001" parent="." index="0"]
+transform = Transform3D(-1, 0, 2.53518e-06, 0, 1, 0, -2.53518e-06, 0, -1, 0, 0, 0)
+layers = 524288
+
+[node name="tip" type="Marker3D" parent="Cube_001" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.998527, -0.0542531, 0, 0.0542531, 0.998527, 0.00055145, 0.132249, 0.770225)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_im076")
+}
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="2"]
+stream = ExtResource("3_6rvmh")
+bus = &"SFX"
+
+[node name="RayCast3D" type="RayCast3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.132958, -0.761969)
+target_position = Vector3(0, 0, -1)

@@ -1,0 +1,104 @@
+[gd_scene load_steps=3 format=3 uid="uid://fickjxe08b8"]
+
+[ext_resource type="Theme" uid="uid://bxk4mwrcf7pbe" path="res://resources/themes/theme_menu.tres" id="1_6y2lk"]
+[ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="1_y5765"]
+
+[node name="PauseMenu" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6y2lk")
+script = ExtResource("1_y5765")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.25)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -227.5
+offset_top = -75.5
+offset_right = 227.5
+offset_bottom = 75.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FullscreenButton" type="CheckButton" parent="VBoxContainer"]
+layout_mode = 2
+text = "TOGGLE FULLSCREEN"
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="SoundSliderLabel" type="Label" parent="VBoxContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Sound effects volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SoundSlider" type="HSlider" parent="VBoxContainer/GridContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+max_value = 1.0
+step = 0.01
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MusicSliderLabel" type="Label" parent="VBoxContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Music volume"
+
+[node name="MusicSlider" type="HSlider" parent="VBoxContainer/GridContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+
+[node name="ResumeButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "RESUME"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "QUIT"
+
+[connection signal="toggled" from="VBoxContainer/FullscreenButton" to="." method="_on_fullscreen_button_toggled"]
+[connection signal="value_changed" from="VBoxContainer/GridContainer/VBoxContainer/SoundSlider" to="." method="_on_sound_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/GridContainer/VBoxContainer2/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/QuitButton" to="." method="_on_quit_button_pressed"]

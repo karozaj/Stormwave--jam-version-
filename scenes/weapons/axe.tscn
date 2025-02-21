@@ -1,0 +1,107 @@
+[gd_scene load_steps=8 format=3 uid="uid://bmyl5auyd05l"]
+
+[ext_resource type="PackedScene" uid="uid://ckg4afbycciu1" path="res://assets/3d/axe.glb" id="1_xwxfe"]
+[ext_resource type="Script" path="res://scenes/weapons/axe.gd" id="2_w7dld"]
+[ext_resource type="AudioStream" uid="uid://b6srt4ymx8hii" path="res://assets/audio/gun_sfx/swing.ogg" id="3_5aly5"]
+
+[sub_resource type="Animation" id="Animation_qci3y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cube:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 3.14159, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cube:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mu3ie"]
+resource_name = "swing"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_swinging_sound"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cube:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.233333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.25, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cube:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.233333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 3.14159, 0), Vector3(0, 4.53786, 1.39626), Vector3(0, 5.75959, 1.39626), Vector3(0, 3.14159, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mrvjp"]
+_data = {
+"RESET": SubResource("Animation_qci3y"),
+"swing": SubResource("Animation_mu3ie")
+}
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7j4cb"]
+height = 3.0
+radius = 1.5
+
+[node name="axe" instance=ExtResource("1_xwxfe")]
+script = ExtResource("2_w7dld")
+
+[node name="Cube" parent="." index="0"]
+transform = Transform3D(-1, 0, 2.53518e-06, 0, 1, 0, -2.53518e-06, 0, -1, 0, 0, 0)
+layers = 524288
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_mrvjp")
+}
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="2"]
+stream = ExtResource("3_5aly5")
+bus = &"SFX"
+
+[node name="Area3D" type="Area3D" parent="." index="3"]
+collision_mask = 6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.775, -0.947758)
+shape = SubResource("CylinderShape3D_7j4cb")

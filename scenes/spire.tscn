@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgtfrwb354uv3"]
+
+[ext_resource type="PackedScene" uid="uid://hfsdg40j2uhq" path="res://assets/3d/spire.glb" id="1_o6odm"]
+
+[node name="spire" instance=ExtResource("1_o6odm")]
+
+[node name="Cylinder" parent="." index="0"]
+cast_shadow = 0

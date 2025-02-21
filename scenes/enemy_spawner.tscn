@@ -1,0 +1,67 @@
+[gd_scene load_steps=3 format=3 uid="uid://da0mhxv14o0vn"]
+
+[ext_resource type="Script" path="res://scenes/enemy_spawner.gd" id="1_83s1v"]
+[ext_resource type="PackedScene" uid="uid://bl62im45fg1sp" path="res://scenes/spawn_spot.tscn" id="2_eo81m"]
+
+[node name="enemy_spawner" type="Node3D"]
+script = ExtResource("1_83s1v")
+
+[node name="spawn_timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="spawn_spot" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4.00001)
+
+[node name="spawn_spot2" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 4.00001)
+
+[node name="spawn_spot3" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 4.00001)
+
+[node name="spawn_spot4" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 4.00001)
+
+[node name="spawn_spot5" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 4.00001)
+
+[node name="spawn_spot6" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 4.00001)
+
+[node name="spawn_spot7" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 5.72205e-06)
+
+[node name="spawn_spot8" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 5.72205e-06)
+
+[node name="spawn_spot9" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 5.72205e-06)
+
+[node name="spawn_spot10" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 5.72205e-06)
+
+[node name="spawn_spot11" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 5.72205e-06)
+
+[node name="spawn_spot12" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 5.72205e-06)
+
+[node name="spawn_spot13" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -3.99999)
+
+[node name="spawn_spot14" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -3.99999)
+
+[node name="spawn_spot15" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -3.99999)
+
+[node name="spawn_spot16" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3.99999)
+
+[node name="spawn_spot17" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -3.99999)
+
+[node name="spawn_spot18" parent="." instance=ExtResource("2_eo81m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -3.99999)
+
+[connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
